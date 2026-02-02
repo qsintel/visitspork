@@ -1004,7 +1004,15 @@
         const cameraIndicator = document.getElementById('camera-indicator');
         const coordsDisplay = document.getElementById('coords');
         
+        // Throttle mousemove for better performance
+        let lastUpdate = 0;
+        const throttleDelay = 50; // Update every 50ms
+        
         document.addEventListener('mousemove', (e) => {
+            const now = Date.now();
+            if (now - lastUpdate < throttleDelay) return;
+            lastUpdate = now;
+            
             const x = Math.floor(e.clientX);
             const y = Math.floor(e.clientY);
             coordsDisplay.textContent = `X: ${x.toString().padStart(4, '0')} Y: ${y.toString().padStart(4, '0')}`;
@@ -1114,7 +1122,7 @@
             }, 300);
         }
 
-        function approveDocument(rotation, destination, color) {
+        function stampDocument(rotation, destination, color) {
             const stamp = document.getElementById('doc-stamp');
             const dest = document.getElementById('dest-choice');
             
@@ -1134,17 +1142,20 @@
         }
 
         function chooseWest() {
-            approveDocument(-15, 'WEST SECTOR - FINANCIAL DISTRICT', '#00f0ff');
+            stampDocument(-15, 'WEST SECTOR - FINANCIAL DISTRICT', '#00f0ff');
         }
 
         function chooseEast() {
-            approveDocument(15, 'EAST SECTOR - RESISTANCE ZONE', '#ff0055');
+            stampDocument(15, 'EAST SECTOR - RESISTANCE ZONE', '#ff0055');
         }
 
         // Add click handler to tagline to show document
-        document.querySelector('.tagline').addEventListener('click', showDocument);
-        document.querySelector('.tagline').style.cursor = 'pointer';
-        document.querySelector('.tagline').title = 'Click to inspect your entry permit';
+        const taglineElement = document.querySelector('.tagline');
+        if (taglineElement) {
+            taglineElement.addEventListener('click', showDocument);
+            taglineElement.style.cursor = 'pointer';
+            taglineElement.title = 'Click to inspect your entry permit';
+        }
 
         // ============================================
         // ENHANCED CARD INTERACTIONS
@@ -1188,6 +1199,8 @@
         // Apply typing effect to subtitle on load
         window.addEventListener('load', () => {
             const subtitle = document.querySelector('.subtitle');
+            if (!subtitle) return;
+            
             const originalText = subtitle.textContent;
             subtitle.style.opacity = '0';
             
