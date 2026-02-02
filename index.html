@@ -20,35 +20,38 @@
         }
 
         :root {
-            /* Modern Dystopian Color Palette */
-            --bg-primary: #0a0a0f;
-            --bg-secondary: #111118;
-            --bg-card: rgba(20, 20, 30, 0.6);
-            --neon-cyan: #00f0ff;
-            --neon-magenta: #ff00ff;
-            --neon-yellow: #ffff00;
-            --neon-red: #ff0055;
-            --text-primary: #ffffff;
-            --text-secondary: #a8b2d1;
-            --text-muted: #6b7280;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --shadow-glow: 0 0 20px rgba(0, 240, 255, 0.3);
+            /* Soviet Pixel Art Color Palette */
+            --bg-primary: #2b1a1a;
+            --bg-secondary: #1a1010;
+            --bg-card: #3d2929;
+            --soviet-brown: #8b6f47;
+            --soviet-red: #cc3333;
+            --soviet-gold: #d4af37;
+            --soviet-dark-red: #8b0000;
+            --text-primary: #d4c5b0;
+            --text-secondary: #998877;
+            --text-muted: #665544;
+            --glass-bg: #4a3535;
+            --glass-border: #665544;
+            --shadow-glow: 0 4px 0 #1a1010;
             --grain-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #0a0a0f 0%, #1a0a2e 50%, #0f0a1a 100%);
+            font-family: 'Courier New', 'Courier', monospace;
+            background: #2b1a1a;
             background-attachment: fixed;
             color: var(--text-primary);
             line-height: 1.7;
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
         }
 
-        /* Animated background gradient */
+        /* Paper texture overlay for soviet feel */
         body::before {
             content: '';
             position: fixed;
@@ -56,9 +59,13 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: 
-                radial-gradient(ellipse at 20% 30%, rgba(0, 240, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 70%, rgba(255, 0, 85, 0.1) 0%, transparent 50%);
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.1) 2px,
+                rgba(0, 0, 0, 0.1) 4px
+            );
             pointer-events: none;
             z-index: 0;
         }
@@ -90,55 +97,46 @@
         header {
             text-align: center;
             padding: 80px 20px 60px;
-            background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, transparent 100%);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--glass-border);
+            background: #3d2929;
+            border-bottom: 4px solid #1a1010;
             position: relative;
             overflow: hidden;
+            box-shadow: inset 0 -4px 0 #665544;
         }
 
         header::before {
             content: '';
             position: absolute;
             top: 0;
-            left: -50%;
-            width: 200%;
-            height: 2px;
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                var(--neon-cyan) 25%, 
-                var(--neon-magenta) 50%, 
-                var(--neon-red) 75%, 
-                transparent 100%);
-            animation: scanline 8s linear infinite;
-        }
-
-        @keyframes scanline {
-            0% { transform: translateX(-50%); }
-            100% { transform: translateX(50%); }
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: repeating-linear-gradient(90deg, 
+                #8b0000 0px, 
+                #8b0000 20px, 
+                #d4af37 20px, 
+                #d4af37 40px);
         }
 
         h1 {
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Courier New', 'Courier', monospace;
             font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 900;
-            letter-spacing: 0.1em;
+            font-weight: bold;
+            letter-spacing: 0.05em;
             margin-bottom: 20px;
             position: relative;
-            background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-magenta) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            filter: drop-shadow(0 0 20px rgba(0, 240, 255, 0.5)) drop-shadow(0 0 30px rgba(255, 0, 255, 0.3));
+            color: #cc3333;
+            text-shadow: 4px 4px 0 #1a1010;
+            text-transform: uppercase;
         }
 
         .subtitle {
             font-size: clamp(0.9rem, 2vw, 1.1rem);
             color: var(--text-secondary);
-            letter-spacing: 0.3em;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
             margin-bottom: 30px;
-            font-weight: 300;
+            font-weight: bold;
         }
 
         .tagline {
@@ -147,11 +145,10 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 25px 35px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            background: #4a3535;
+            border: 3px solid #665544;
+            border-radius: 0;
+            box-shadow: 6px 6px 0 #1a1010;
             line-height: 1.8;
         }
 
@@ -189,13 +186,13 @@
 
         .side {
             padding: 40px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
+            background: #4a3535;
+            border: 4px solid #665544;
+            border-radius: 0;
             position: relative;
             overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: none;
+            box-shadow: 8px 8px 0 #1a1010;
         }
 
         .side::before {
@@ -204,55 +201,44 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, currentColor, transparent);
-            opacity: 0.8;
+            height: 8px;
+            background: currentColor;
+            opacity: 1;
         }
 
         .side::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 50% 0%, currentColor, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            pointer-events: none;
+            display: none;
         }
 
         .side:hover {
-            transform: translateY(-8px);
-            box-shadow: 
-                0 20px 60px rgba(0, 0, 0, 0.4),
-                0 0 40px currentColor;
-            border-color: currentColor;
-        }
-
-        .side:hover::after {
-            opacity: 0.05;
+            transform: translateY(-4px);
+            box-shadow: 12px 12px 0 #1a1010;
         }
 
         .side-west {
-            color: var(--neon-cyan);
+            color: #8b6f47;
         }
 
         .side-east {
-            color: var(--neon-red);
+            color: #8b0000;
         }
 
         .side h2 {
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Courier New', 'Courier', monospace;
             font-size: clamp(1.8rem, 3vw, 2.5rem);
             margin-bottom: 15px;
-            font-weight: 700;
+            font-weight: bold;
             letter-spacing: 0.05em;
-            text-shadow: 0 0 20px currentColor;
+            text-shadow: 3px 3px 0 #1a1010;
+            text-transform: uppercase;
         }
 
         .side h3 {
             font-size: clamp(1.1rem, 2vw, 1.4rem);
             margin: 25px 0 15px;
             color: var(--text-primary);
-            font-weight: 600;
+            font-weight: bold;
+            text-transform: uppercase;
         }
 
         .side p {
@@ -286,12 +272,12 @@
         .features {
             margin: 80px 0;
             padding: 60px 40px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
+            background: #4a3535;
+            border: 4px solid #665544;
+            border-radius: 0;
             position: relative;
             overflow: hidden;
+            box-shadow: 8px 8px 0 #1a1010;
         }
 
         .features::before {
@@ -300,29 +286,24 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, 
-                var(--neon-cyan), 
-                var(--neon-magenta), 
-                var(--neon-red),
-                var(--neon-cyan));
-            background-size: 200% 100%;
-            animation: gradient-shift 3s linear infinite;
-        }
-
-        @keyframes gradient-shift {
-            0% { background-position: 0% 0%; }
-            100% { background-position: 200% 0%; }
+            height: 8px;
+            background: repeating-linear-gradient(90deg, 
+                #8b0000 0px, 
+                #8b0000 20px, 
+                #d4af37 20px, 
+                #d4af37 40px);
         }
 
         .features h2 {
             text-align: center;
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Courier New', monospace;
             font-size: clamp(2rem, 4vw, 3rem);
             margin-bottom: 50px;
             color: var(--text-primary);
-            font-weight: 700;
+            font-weight: bold;
             letter-spacing: 0.05em;
+            text-transform: uppercase;
+            text-shadow: 3px 3px 0 #1a1010;
         }
 
         .features-grid {
@@ -333,43 +314,32 @@
 
         .feature {
             padding: 35px 30px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
+            background: #3d2929;
+            border: 3px solid #665544;
+            border-radius: 0;
             text-align: center;
-            transition: all 0.3s ease;
+            transition: none;
             position: relative;
             overflow: hidden;
+            box-shadow: 4px 4px 0 #1a1010;
         }
 
         .feature::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--neon-yellow), transparent);
-            transform: translateX(-100%);
-            transition: transform 0.6s ease;
-        }
-
-        .feature:hover::before {
-            transform: translateX(100%);
+            display: none;
         }
 
         .feature:hover {
-            transform: translateY(-5px);
-            border-color: var(--neon-yellow);
-            box-shadow: 0 10px 30px rgba(255, 255, 0, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 6px 6px 0 #1a1010;
         }
 
         .feature h3 {
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Courier New', monospace;
             font-size: clamp(1.1rem, 2vw, 1.3rem);
             margin-bottom: 15px;
-            color: var(--neon-yellow);
-            font-weight: 600;
+            color: #d4af37;
+            font-weight: bold;
+            text-transform: uppercase;
         }
 
         .feature p {
@@ -383,11 +353,11 @@
             max-width: 1000px;
             margin: 80px auto;
             padding: 60px 50px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
+            background: #4a3535;
+            border: 4px solid #665544;
+            border-radius: 0;
             position: relative;
+            box-shadow: 8px 8px 0 #1a1010;
         }
 
         .story::before {
@@ -396,21 +366,20 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                var(--neon-magenta) 50%, 
-                transparent 100%);
+            height: 6px;
+            background: #8b0000;
         }
 
         .story h2 {
             text-align: center;
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Courier New', monospace;
             font-size: clamp(2rem, 4vw, 3rem);
             margin-bottom: 40px;
             color: var(--text-primary);
-            font-weight: 700;
+            font-weight: bold;
             letter-spacing: 0.05em;
+            text-transform: uppercase;
+            text-shadow: 3px 3px 0 #1a1010;
         }
 
         .story p {
@@ -423,24 +392,18 @@
 
         /* Divider */
         .divider {
-            height: 1px;
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                var(--neon-cyan) 25%, 
-                var(--neon-magenta) 50%,
-                var(--neon-red) 75%, 
-                transparent 100%);
+            height: 4px;
+            background: #665544;
             margin: 60px 0;
-            box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+            box-shadow: 0 4px 0 #1a1010;
         }
 
         /* Footer */
         footer {
             text-align: center;
             padding: 50px 20px;
-            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid var(--glass-border);
+            background: #3d2929;
+            border-top: 4px solid #665544;
             margin-top: 80px;
         }
 
@@ -476,9 +439,9 @@
 
         /* Accessibility */
         a {
-            color: var(--neon-cyan);
+            color: #8b6f47;
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: all 0.1s ease;
             position: relative;
         }
 
@@ -488,9 +451,9 @@
             bottom: -2px;
             left: 0;
             width: 0;
-            height: 1px;
+            height: 2px;
             background: currentColor;
-            transition: width 0.3s ease;
+            transition: width 0.1s ease;
         }
 
         a:hover::after,
@@ -500,8 +463,7 @@
 
         a:hover,
         a:focus {
-            color: var(--neon-magenta);
-            text-shadow: 0 0 10px currentColor;
+            color: #cc3333;
         }
 
         /* Respect user's motion preferences */
@@ -539,46 +501,27 @@
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(255, 0, 85, 0.95);
-            color: #fff;
+            background: #8b0000;
+            color: #d4c5b0;
             padding: 12px 20px;
             text-align: center;
-            font-family: 'Orbitron', monospace;
+            font-family: 'Courier New', monospace;
             font-size: 0.85rem;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.05em;
             z-index: 9999;
             transform: translateY(-100%);
             transition: transform 0.3s ease;
-            border-bottom: 2px solid var(--neon-red);
-            box-shadow: 0 4px 20px rgba(255, 0, 85, 0.5);
+            border-bottom: 4px solid #1a1010;
+            box-shadow: 0 6px 0 #4a0000;
         }
 
         #status-bar.show {
             transform: translateY(0);
         }
 
-        /* Scanline Overlay */
+        /* Scanline Overlay - Removed for soviet style */
         .scanline-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(
-                to bottom,
-                transparent 0%,
-                rgba(0, 240, 255, 0.03) 50%,
-                transparent 100%
-            );
-            background-size: 100% 4px;
-            pointer-events: none;
-            z-index: 9998;
-            animation: scanlines 8s linear infinite;
-        }
-
-        @keyframes scanlines {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(4px); }
+            display: none;
         }
 
         /* Document Inspection Overlay */
@@ -588,15 +531,14 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(20px);
+            background: rgba(43, 26, 26, 0.98);
             z-index: 10000;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.2s ease;
         }
 
         #document-overlay.hidden {
@@ -608,29 +550,28 @@
         }
 
         .document-container {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            border: 3px solid var(--neon-cyan);
-            border-radius: 8px;
+            background: #d4c5b0;
+            border: 6px solid #3d2929;
+            border-radius: 0;
             padding: 50px 60px;
             max-width: 600px;
             width: 100%;
             position: relative;
-            box-shadow: 
-                0 0 50px rgba(0, 240, 255, 0.4),
-                inset 0 0 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 12px 12px 0 #1a1010;
             font-family: 'Courier New', monospace;
         }
 
         .document-container h3 {
             text-align: center;
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Courier New', monospace;
             font-size: 1.5rem;
-            color: var(--neon-cyan);
+            color: #8b0000;
             margin-bottom: 30px;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
-            border-bottom: 2px solid var(--glass-border);
+            border-bottom: 3px solid #3d2929;
             padding-bottom: 15px;
+            font-weight: bold;
         }
 
         .document-details {
@@ -640,7 +581,7 @@
 
         .document-details p {
             font-size: 1.1rem;
-            color: var(--text-secondary);
+            color: #3d2929;
             margin: 10px 0;
         }
 
@@ -650,7 +591,7 @@
         }
 
         .status-pending {
-            color: var(--neon-yellow) !important;
+            color: var(--soviet-gold) !important;
             animation: pulse 2s ease-in-out infinite;
         }
 
@@ -659,8 +600,17 @@
             50% { opacity: 0.5; }
         }
 
+        .document-details span {
+            color: #1a1010;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            color: #cc3333 !important;
+        }
+
         .clearance {
-            color: var(--neon-red) !important;
+            color: #8b0000 !important;
         }
 
         .document-stamp {
@@ -671,22 +621,23 @@
             font-size: 3rem;
             font-weight: 900;
             opacity: 0;
-            transition: all 0.3s ease;
+            transition: all 0.1s ease;
             pointer-events: none;
+            font-family: 'Courier New', monospace;
         }
 
         .document-stamp.stamped {
-            opacity: 1 !important;
+            opacity: 0.8 !important;
         }
 
         .document-stamp.approved {
-            color: #00ff00;
-            text-shadow: 0 0 20px #00ff00;
+            color: #228b22;
+            text-shadow: 3px 3px 0 #0f4f0f;
         }
 
         .document-stamp.rejected {
-            color: #ff0000;
-            text-shadow: 0 0 20px #ff0000;
+            color: #8b0000;
+            text-shadow: 3px 3px 0 #4a0000;
         }
 
         .document-actions {
@@ -698,39 +649,39 @@
         .doc-btn {
             flex: 1;
             padding: 15px 25px;
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Courier New', monospace;
             font-size: 1rem;
-            font-weight: 700;
+            font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            border: 2px solid;
-            background: transparent;
+            letter-spacing: 0.05em;
+            border: 3px solid;
+            background: #3d2929;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.1s ease;
             position: relative;
             overflow: hidden;
         }
 
         .west-btn {
-            color: var(--neon-cyan);
-            border-color: var(--neon-cyan);
+            color: #8b6f47;
+            border-color: #8b6f47;
         }
 
         .west-btn:hover {
-            background: var(--neon-cyan);
-            color: #000;
-            box-shadow: 0 0 20px var(--neon-cyan);
+            background: #8b6f47;
+            color: #1a1010;
+            box-shadow: 6px 6px 0 #1a1010;
         }
 
         .east-btn {
-            color: var(--neon-red);
-            border-color: var(--neon-red);
+            color: #8b0000;
+            border-color: #8b0000;
         }
 
         .east-btn:hover {
-            background: var(--neon-red);
-            color: #fff;
-            box-shadow: 0 0 20px var(--neon-red);
+            background: #8b0000;
+            color: #d4c5b0;
+            box-shadow: 6px 6px 0 #1a1010;
         }
 
         .close-doc {
@@ -739,16 +690,16 @@
             right: 15px;
             background: transparent;
             border: none;
-            color: var(--text-muted);
+            color: #665544;
             font-size: 1.5rem;
             cursor: pointer;
             padding: 5px 10px;
-            transition: all 0.3s ease;
+            transition: all 0.1s ease;
         }
 
         .close-doc:hover {
-            color: var(--neon-red);
-            transform: scale(1.2);
+            color: #8b0000;
+            transform: scale(1.1);
         }
 
         /* Surveillance Camera Indicator */
@@ -756,36 +707,37 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid var(--neon-red);
-            border-radius: 8px;
+            background: #3d2929;
+            border: 3px solid #8b0000;
+            border-radius: 0;
             padding: 12px 18px;
-            font-family: 'Orbitron', monospace;
+            font-family: 'Courier New', monospace;
             font-size: 0.7rem;
-            color: var(--neon-red);
+            color: #8b0000;
             z-index: 9997;
             display: flex;
             align-items: center;
             gap: 10px;
-            box-shadow: 0 0 20px rgba(255, 0, 85, 0.3);
+            box-shadow: 4px 4px 0 #1a1010;
         }
 
         .camera-icon {
             font-size: 1.2rem;
-            transition: transform 0.1s ease;
+            transition: transform 0.05s ease;
             display: inline-block;
         }
 
         .tracking-text {
             font-size: 0.65rem;
             letter-spacing: 0.05em;
-            opacity: 0.8;
+            opacity: 1;
+            font-weight: bold;
         }
 
         .coordinates {
             font-family: 'Courier New', monospace;
             font-size: 0.7rem;
-            color: var(--neon-cyan);
+            color: #d4af37;
             margin-top: 4px;
         }
 
@@ -1066,37 +1018,6 @@
         setInterval(showStatusMessage, 15000);
 
         // ============================================
-        // FLICKERING NEON EFFECTS
-        // ============================================
-        const neonElements = document.querySelectorAll('.side h2, h1');
-        
-        setInterval(() => {
-            if (Math.random() > 0.92) {
-                neonElements.forEach(el => {
-                    if (Math.random() > 0.6) {
-                        el.style.opacity = '0.3';
-                        setTimeout(() => {
-                            el.style.opacity = '1';
-                        }, 50);
-                        setTimeout(() => {
-                            el.style.opacity = '0.5';
-                        }, 100);
-                        setTimeout(() => {
-                            el.style.opacity = '1';
-                        }, 150);
-                    }
-                });
-            }
-        }, 3000);
-
-        // ============================================
-        // SCANLINE OVERLAY
-        // ============================================
-        const scanline = document.createElement('div');
-        scanline.className = 'scanline-overlay';
-        document.body.appendChild(scanline);
-
-        // ============================================
         // DOCUMENT INSPECTION (Papers Please style)
         // ============================================
         function showDocument() {
@@ -1142,11 +1063,11 @@
         }
 
         function chooseWest() {
-            stampDocument(-15, 'WEST SECTOR - FINANCIAL DISTRICT', '#00f0ff');
+            stampDocument(-15, 'WEST SECTOR - FINANCIAL DISTRICT', '#8b6f47');
         }
 
         function chooseEast() {
-            stampDocument(15, 'EAST SECTOR - RESISTANCE ZONE', '#ff0055');
+            stampDocument(15, 'EAST SECTOR - RESISTANCE ZONE', '#8b0000');
         }
 
         // Add click handler to tagline to show document
@@ -1156,26 +1077,6 @@
             taglineElement.style.cursor = 'pointer';
             taglineElement.title = 'Click to inspect your entry permit';
         }
-
-        // ============================================
-        // ENHANCED CARD INTERACTIONS
-        // ============================================
-        const cards = document.querySelectorAll('.side');
-        
-        cards.forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                // Add slight scan effect
-                this.style.transition = 'all 0.1s ease';
-                
-                // Random flicker on hover
-                if (Math.random() > 0.7) {
-                    this.style.opacity = '0.8';
-                    setTimeout(() => {
-                        this.style.opacity = '1';
-                    }, 50);
-                }
-            });
-        });
 
         // ============================================
         // TYPING ANIMATION FOR INTRO
