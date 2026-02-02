@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Visitspork - A dystopian pixel art survival game set in the city of Spork. Choose your path: financial success in the West or reputation and survival in the East.">
+    <meta name="keywords" content="pixel art, survival game, dystopian, indie game, spork">
+    <meta name="author" content="Visitspork">
+    <title>Visitspork - Survive the City of Spork</title>
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAdgAAAHYBTnsmCAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAD4SURBVDiNpdI/S8NQFMXxT5qmadKmVv9AHRwc3J0c/Ag6+QkcXXR0dHBwcPQjODu5ODjoIEhBKChYpGKbpk2bNM3rcV6hBRWcJTn3/O7JTe4NpJTYRYE9w0U0MUYTn3jCC16xinaZKNRh4wRP2MceIt93rPCOGVb4whnGZaJQgwKPuMcBtnBb0Mc7jlEt+k0Rxw+a8GegYVHQ0J4COujhGhOMsY9n3KCOFzxgH1fY4ApX+MAtHnCMKV6xQKsoL9R2FbcobhBnnWDoo+eR6zS+v+vkD84x/6N2gTM0inyd8DfSzHGCo+35b+FPhP9Pqrj8lv4CUws/Rm5JjlsAAAAASUVORK5CYII=">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Modern Dystopian Color Palette */
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #111118;
+            --bg-card: rgba(20, 20, 30, 0.6);
+            --neon-cyan: #00f0ff;
+            --neon-magenta: #ff00ff;
+            --neon-yellow: #ffff00;
+            --neon-red: #ff0055;
+            --text-primary: #ffffff;
+            --text-secondary: #a8b2d1;
+            --text-muted: #6b7280;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --shadow-glow: 0 0 20px rgba(0, 240, 255, 0.3);
+            --grain-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a0a2e 50%, #0f0a1a 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated background gradient */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 30%, rgba(0, 240, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(255, 0, 85, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Grain texture overlay for dystopian feel */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: var(--grain-texture);
+            pointer-events: none;
+            opacity: 0.5;
+            z-index: 1;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 80px 20px 60px;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, transparent 100%);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -50%;
+            width: 200%;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                var(--neon-cyan) 25%, 
+                var(--neon-magenta) 50%, 
+                var(--neon-red) 75%, 
+                transparent 100%);
+            animation: scanline 8s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(50%); }
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            margin-bottom: 20px;
+            position: relative;
+            background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-magenta) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 20px rgba(0, 240, 255, 0.5)) drop-shadow(0 0 30px rgba(255, 0, 255, 0.3));
+        }
+
+        .subtitle {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            color: var(--text-secondary);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .tagline {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: var(--text-primary);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 25px 35px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            line-height: 1.8;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 60px 20px;
+        }
+
+        .game-info {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .game-info p {
+            font-size: clamp(1rem, 1.8vw, 1.25rem);
+            max-width: 900px;
+            margin: 0 auto 25px;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        /* Two Sides Section */
+        .two-sides {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            margin: 60px 0;
+        }
+
+        @media (min-width: 768px) {
+            .two-sides {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .side {
+            padding: 40px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .side::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, currentColor, transparent);
+            opacity: 0.8;
+        }
+
+        .side::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 0%, currentColor, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .side:hover {
+            transform: translateY(-8px);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.4),
+                0 0 40px currentColor;
+            border-color: currentColor;
+        }
+
+        .side:hover::after {
+            opacity: 0.05;
+        }
+
+        .side-west {
+            color: var(--neon-cyan);
+        }
+
+        .side-east {
+            color: var(--neon-red);
+        }
+
+        .side h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-shadow: 0 0 20px currentColor;
+        }
+
+        .side h3 {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            margin: 25px 0 15px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .side p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .side ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .side li {
+            padding: 12px 0;
+            font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+            color: var(--text-secondary);
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .side li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            color: currentColor;
+        }
+
+        /* Features Section */
+        .features {
+            margin: 80px 0;
+            padding: 60px 40px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .features::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                var(--neon-cyan), 
+                var(--neon-magenta), 
+                var(--neon-red),
+                var(--neon-cyan));
+            background-size: 200% 100%;
+            animation: gradient-shift 3s linear infinite;
+        }
+
+        @keyframes gradient-shift {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+
+        .features h2 {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 50px;
+            color: var(--text-primary);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .feature {
+            padding: 35px 30px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-yellow), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .feature:hover::before {
+            transform: translateX(100%);
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-yellow);
+            box-shadow: 0 10px 30px rgba(255, 255, 0, 0.2);
+        }
+
+        .feature h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            margin-bottom: 15px;
+            color: var(--neon-yellow);
+            font-weight: 600;
+        }
+
+        .feature p {
+            font-size: clamp(0.9rem, 1.5vw, 1rem);
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Story Section */
+        .story {
+            max-width: 1000px;
+            margin: 80px auto;
+            padding: 60px 50px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .story::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                var(--neon-magenta) 50%, 
+                transparent 100%);
+        }
+
+        .story h2 {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 40px;
+            color: var(--text-primary);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        .story p {
+            font-size: clamp(1rem, 1.8vw, 1.15rem);
+            margin-bottom: 25px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            text-align: left;
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                var(--neon-cyan) 25%, 
+                var(--neon-magenta) 50%,
+                var(--neon-red) 75%, 
+                transparent 100%);
+            margin: 60px 0;
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 50px 20px;
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--glass-border);
+            margin-top: 80px;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+            margin: 8px 0;
+        }
+
+        /* Responsive Typography */
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+
+            header {
+                padding: 60px 15px 40px;
+            }
+
+            .side {
+                padding: 30px 25px;
+            }
+
+            .features,
+            .story {
+                padding: 40px 25px;
+            }
+
+            .tagline {
+                padding: 20px 25px;
+            }
+        }
+
+        /* Accessibility */
+        a {
+            color: var(--neon-cyan);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: currentColor;
+            transition: width 0.3s ease;
+        }
+
+        a:hover::after,
+        a:focus::after {
+            width: 100%;
+        }
+
+        a:hover,
+        a:focus {
+            color: var(--neon-magenta);
+            text-shadow: 0 0 10px currentColor;
+        }
+
+        /* Respect user's motion preferences */
+        @media (prefers-reduced-motion: reduce) {
+            header::before {
+                animation: none;
+            }
+            
+            .features::before {
+                animation: none;
+            }
+            
+            .feature::before {
+                transition: none;
+            }
+            
+            .side,
+            .feature {
+                transition: none;
+            }
+            
+            /* Reduce grain texture for users sensitive to visual noise */
+            body::after {
+                opacity: 0.2;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>VISITSPORK</h1>
+        <p class="subtitle">A DYSTOPIAN SURVIVAL EXPERIENCE</p>
+        <p class="tagline">Choose your path in the divided city of Spork. Financial power or street reputation. Your survival depends on it.</p>
+    </header>
+
+    <div class="container">
+        <main class="main-content">
+            <section class="game-info">
+                <p>Welcome to Spork - a city divided by ideology, economics, and desperation.</p>
+                <p>As a new immigrant, you must navigate the harsh realities of survival in a world that doesn't care if you live or die.</p>
+            </section>
+
+            <div class="divider"></div>
+
+            <section class="two-sides">
+                <article class="side side-west">
+                    <h2>← THE WEST</h2>
+                    <h3>Financial Success</h3>
+                    <p>The corporate district. Clean streets, high walls, and endless opportunities... if you can pay the price.</p>
+                    <ul>
+                        <li>Accumulate wealth through trade and business</li>
+                        <li>Navigate corporate politics and corruption</li>
+                        <li>Bribe your way to the top</li>
+                        <li>Build financial empire in a capitalist dystopia</li>
+                        <li>Face moral compromises for profit</li>
+                    </ul>
+                </article>
+
+                <article class="side side-east">
+                    <h2>THE EAST →</h2>
+                    <h3>Reputation & Health</h3>
+                    <p>The underground. Gritty, dangerous, but alive with resistance. Survival depends on who you know and how strong you are.</p>
+                    <ul>
+                        <li>Build reputation among the resistance</li>
+                        <li>Maintain your health in harsh conditions</li>
+                        <li>Form alliances with street factions</li>
+                        <li>Survive on wit and connections</li>
+                        <li>Fight for a better tomorrow</li>
+                    </ul>
+                </article>
+            </section>
+
+            <div class="divider"></div>
+
+            <section class="features">
+                <h2>Game Features</h2>
+                <div class="features-grid">
+                    <div class="feature">
+                        <h3>Pixel Art Graphics</h3>
+                        <p>Immersive retro-styled visuals that bring the dystopian world to life</p>
+                    </div>
+                    <div class="feature">
+                        <h3>Dual Progression</h3>
+                        <p>Choose your path: financial domination or grassroots survival</p>
+                    </div>
+                    <div class="feature">
+                        <h3>Moral Choices</h3>
+                        <p>Every decision shapes your character and the city around you</p>
+                    </div>
+                    <div class="feature">
+                        <h3>Immigrant Story</h3>
+                        <p>Experience the struggle from the perspective of the oppressed</p>
+                    </div>
+                    <div class="feature">
+                        <h3>Dynamic World</h3>
+                        <p>The city of Spork reacts to your choices and allegiances</p>
+                    </div>
+                    <div class="feature">
+                        <h3>Survival Mechanics</h3>
+                        <p>Manage resources, health, reputation, and relationships</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="divider"></div>
+
+            <section class="story">
+                <h2>Your Story</h2>
+                <p>
+                    You arrive in Spork with nothing but hope and determination. The city is split down the middle - 
+                    left lies the West, where money talks and corporate towers scrape the sky. Right lies the East, 
+                    where the forgotten struggle to survive and dream of revolution.
+                </p>
+                <p>
+                    Unlike the border guards who decide your fate, you are the immigrant. You are the one being judged, 
+                    inspected, and processed. Papers, Please showed you the other side of the checkpoint - now you're 
+                    the one standing in line, hoping your documents are in order, hoping you'll be allowed to pass.
+                </p>
+                <p>
+                    But getting in is just the beginning. In Spork, survival means choosing a side. Will you climb the 
+                    corporate ladder in the West, trading your soul for financial security? Or will you join the 
+                    resistance in the East, building reputation and fighting for a better world?
+                </p>
+                <p>
+                    The choice is yours. But remember - in Spork, every choice has consequences, and neutrality is not 
+                    an option. Choose wisely, immigrant. Your life depends on it.
+                </p>
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Visitspork. A dystopian survival experience.</p>
+        <p>Inspired by Papers, Please and the struggle of the displaced.</p>
+    </footer>
+</body>
+</html>
