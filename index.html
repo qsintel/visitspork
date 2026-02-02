@@ -1114,42 +1114,31 @@
             }, 300);
         }
 
-        function chooseWest() {
+        function approveDocument(rotation, destination, color) {
             const stamp = document.getElementById('doc-stamp');
             const dest = document.getElementById('dest-choice');
             
             stamp.textContent = 'APPROVED';
             stamp.classList.add('stamped', 'approved');
             stamp.style.opacity = '1';
-            dest.textContent = 'WEST SECTOR - FINANCIAL DISTRICT';
-            dest.style.color = '#00f0ff';
+            dest.textContent = destination;
+            dest.style.color = color;
             
-            // Play stamp sound effect (visual feedback)
-            stamp.style.transform = 'rotate(-15deg) scale(1.2)';
+            // Play stamp sound effect (visual feedback) - preserve translateY for centering
+            stamp.style.transform = `translateY(-50%) rotate(${rotation}deg) scale(1.2)`;
             setTimeout(() => {
-                stamp.style.transform = 'rotate(-15deg) scale(1)';
+                stamp.style.transform = `translateY(-50%) rotate(${rotation}deg) scale(1)`;
             }, 200);
             
             setTimeout(closeDocument, 2000);
         }
 
+        function chooseWest() {
+            approveDocument(-15, 'WEST SECTOR - FINANCIAL DISTRICT', '#00f0ff');
+        }
+
         function chooseEast() {
-            const stamp = document.getElementById('doc-stamp');
-            const dest = document.getElementById('dest-choice');
-            
-            stamp.textContent = 'APPROVED';
-            stamp.classList.add('stamped', 'approved');
-            stamp.style.opacity = '1';
-            dest.textContent = 'EAST SECTOR - RESISTANCE ZONE';
-            dest.style.color = '#ff0055';
-            
-            // Play stamp sound effect (visual feedback)
-            stamp.style.transform = 'rotate(15deg) scale(1.2)';
-            setTimeout(() => {
-                stamp.style.transform = 'rotate(15deg) scale(1)';
-            }, 200);
-            
-            setTimeout(closeDocument, 2000);
+            approveDocument(15, 'EAST SECTOR - RESISTANCE ZONE', '#ff0055');
         }
 
         // Add click handler to tagline to show document
@@ -1206,21 +1195,6 @@
                 typeWriter(subtitle, originalText, 80);
             }, 500);
         });
-
-        // ============================================
-        // NOISE/STATIC OVERLAY CONTROL
-        // ============================================
-        let noiseIntensity = 0.5;
-        
-        function updateNoise() {
-            const bodyAfter = document.body;
-            // Noise is controlled via CSS variable
-            if (Math.random() > 0.95) {
-                noiseIntensity = 0.3 + Math.random() * 0.4;
-            }
-        }
-        
-        setInterval(updateNoise, 1000);
 
         // ============================================
         // CONSOLE EASTER EGG
