@@ -522,6 +522,11 @@
             .feature {
                 transition: none;
             }
+            
+            /* Reduce grain texture for users sensitive to visual noise */
+            body::after {
+                opacity: 0.2;
+            }
         }
     </style>
 </head>
