@@ -528,6 +528,301 @@
                 opacity: 0.2;
             }
         }
+
+        /* ============================================
+           JAVASCRIPT-ENHANCED ELEMENTS
+           ============================================ */
+
+        /* Status Bar */
+        #status-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 0, 85, 0.95);
+            color: #fff;
+            padding: 12px 20px;
+            text-align: center;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            z-index: 9999;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+            border-bottom: 2px solid var(--neon-red);
+            box-shadow: 0 4px 20px rgba(255, 0, 85, 0.5);
+        }
+
+        #status-bar.show {
+            transform: translateY(0);
+        }
+
+        /* Scanline Overlay */
+        .scanline-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                rgba(0, 240, 255, 0.03) 50%,
+                transparent 100%
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 9998;
+            animation: scanlines 8s linear infinite;
+        }
+
+        @keyframes scanlines {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+
+        /* Document Inspection Overlay */
+        #document-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        #document-overlay.hidden {
+            display: none;
+        }
+
+        #document-overlay.show {
+            opacity: 1;
+        }
+
+        .document-container {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border: 3px solid var(--neon-cyan);
+            border-radius: 8px;
+            padding: 50px 60px;
+            max-width: 600px;
+            width: 100%;
+            position: relative;
+            box-shadow: 
+                0 0 50px rgba(0, 240, 255, 0.4),
+                inset 0 0 30px rgba(0, 0, 0, 0.5);
+            font-family: 'Courier New', monospace;
+        }
+
+        .document-container h3 {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: var(--neon-cyan);
+            margin-bottom: 30px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--glass-border);
+            padding-bottom: 15px;
+        }
+
+        .document-details {
+            margin: 30px 0;
+            line-height: 2.2;
+        }
+
+        .document-details p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin: 10px 0;
+        }
+
+        .document-details span {
+            color: var(--text-primary);
+            font-weight: bold;
+        }
+
+        .status-pending {
+            color: var(--neon-yellow) !important;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .clearance {
+            color: var(--neon-red) !important;
+        }
+
+        .document-stamp {
+            position: absolute;
+            top: 50%;
+            right: 40px;
+            transform: translateY(-50%) rotate(-15deg);
+            font-size: 3rem;
+            font-weight: 900;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .document-stamp.stamped {
+            opacity: 1 !important;
+        }
+
+        .document-stamp.approved {
+            color: #00ff00;
+            text-shadow: 0 0 20px #00ff00;
+        }
+
+        .document-stamp.rejected {
+            color: #ff0000;
+            text-shadow: 0 0 20px #ff0000;
+        }
+
+        .document-actions {
+            display: flex;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .doc-btn {
+            flex: 1;
+            padding: 15px 25px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border: 2px solid;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .west-btn {
+            color: var(--neon-cyan);
+            border-color: var(--neon-cyan);
+        }
+
+        .west-btn:hover {
+            background: var(--neon-cyan);
+            color: #000;
+            box-shadow: 0 0 20px var(--neon-cyan);
+        }
+
+        .east-btn {
+            color: var(--neon-red);
+            border-color: var(--neon-red);
+        }
+
+        .east-btn:hover {
+            background: var(--neon-red);
+            color: #fff;
+            box-shadow: 0 0 20px var(--neon-red);
+        }
+
+        .close-doc {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px 10px;
+            transition: all 0.3s ease;
+        }
+
+        .close-doc:hover {
+            color: var(--neon-red);
+            transform: scale(1.2);
+        }
+
+        /* Surveillance Camera Indicator */
+        #camera-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--neon-red);
+            border-radius: 8px;
+            padding: 12px 18px;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.7rem;
+            color: var(--neon-red);
+            z-index: 9997;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.3);
+        }
+
+        .camera-icon {
+            font-size: 1.2rem;
+            transition: transform 0.1s ease;
+            display: inline-block;
+        }
+
+        .tracking-text {
+            font-size: 0.65rem;
+            letter-spacing: 0.05em;
+            opacity: 0.8;
+        }
+
+        .coordinates {
+            font-family: 'Courier New', monospace;
+            font-size: 0.7rem;
+            color: var(--neon-cyan);
+            margin-top: 4px;
+        }
+
+        /* Mobile Responsive for New Elements */
+        @media (max-width: 768px) {
+            #camera-indicator {
+                top: 10px;
+                right: 10px;
+                padding: 8px 12px;
+                font-size: 0.6rem;
+                flex-direction: column;
+                gap: 4px;
+                align-items: flex-end;
+            }
+
+            .tracking-text {
+                display: none;
+            }
+
+            .document-container {
+                padding: 30px 25px;
+            }
+
+            .document-stamp {
+                font-size: 2rem;
+                right: 20px;
+            }
+
+            .document-actions {
+                flex-direction: column;
+            }
+
+            #status-bar {
+                font-size: 0.7rem;
+                padding: 10px 15px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -637,5 +932,303 @@
         <p>&copy; 2026 Visitspork. A dystopian survival experience.</p>
         <p>Inspired by Papers, Please and the struggle of the displaced.</p>
     </footer>
+
+    <!-- Dystopian Status Bar -->
+    <div id="status-bar"></div>
+
+    <!-- Document Inspection Overlay (Papers Please style) -->
+    <div id="document-overlay" class="hidden">
+        <div class="document-container">
+            <div class="document-stamp" id="doc-stamp">APPROVED</div>
+            <h3>ENTRY PERMIT - CITY OF SPORK</h3>
+            <div class="document-details">
+                <p>NAME: <span id="visitor-name">IMMIGRANT #<span class="glitch-text">7891</span></span></p>
+                <p>STATUS: <span class="status-pending">PENDING REVIEW</span></p>
+                <p>DESTINATION: <span id="dest-choice">UNDECIDED</span></p>
+                <p>CLEARANCE LEVEL: <span class="clearance">RESTRICTED</span></p>
+            </div>
+            <div class="document-actions">
+                <button class="doc-btn west-btn" onclick="chooseWest()">← WEST SECTOR</button>
+                <button class="doc-btn east-btn" onclick="chooseEast()">EAST SECTOR →</button>
+            </div>
+            <button class="close-doc" onclick="closeDocument()">✕ Close</button>
+        </div>
+    </div>
+
+    <!-- Surveillance Camera Tracker -->
+    <div id="camera-indicator">
+        <div class="camera-icon">◉</div>
+        <div class="tracking-text">SURVEILLANCE ACTIVE</div>
+        <div class="coordinates" id="coords">X: 0 Y: 0</div>
+    </div>
+
+    <script>
+        // ============================================
+        // GLITCH EFFECT ON TITLE
+        // ============================================
+        const glitchElements = document.querySelectorAll('h1, .glitch-text');
+        
+        function createGlitch(element) {
+            const originalText = element.textContent;
+            const glitchChars = '!@#$%^&*()_+-=[]{}|;:,.<>?/~`';
+            
+            let glitchText = '';
+            for (let i = 0; i < originalText.length; i++) {
+                if (Math.random() > 0.85) {
+                    glitchText += glitchChars[Math.floor(Math.random() * glitchChars.length)];
+                } else {
+                    glitchText += originalText[i];
+                }
+            }
+            
+            element.textContent = glitchText;
+            setTimeout(() => {
+                element.textContent = originalText;
+            }, 50);
+        }
+
+        // Random glitch effects
+        setInterval(() => {
+            if (Math.random() > 0.95) {
+                glitchElements.forEach(el => {
+                    if (Math.random() > 0.7) {
+                        createGlitch(el);
+                    }
+                });
+            }
+        }, 2000);
+
+        // ============================================
+        // SURVEILLANCE CAMERA TRACKER
+        // ============================================
+        const cameraIndicator = document.getElementById('camera-indicator');
+        const coordsDisplay = document.getElementById('coords');
+        
+        document.addEventListener('mousemove', (e) => {
+            const x = Math.floor(e.clientX);
+            const y = Math.floor(e.clientY);
+            coordsDisplay.textContent = `X: ${x.toString().padStart(4, '0')} Y: ${y.toString().padStart(4, '0')}`;
+            
+            // Subtle tracking behavior
+            const rect = cameraIndicator.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX);
+            const rotation = angle * (180 / Math.PI);
+            
+            const cameraIcon = cameraIndicator.querySelector('.camera-icon');
+            cameraIcon.style.transform = `rotate(${rotation}deg)`;
+        });
+
+        // ============================================
+        // DYSTOPIAN STATUS MESSAGES
+        // ============================================
+        const statusMessages = [
+            '⚠ CURFEW IN EFFECT: 22:00 - 06:00',
+            '⚠ CHECKPOINT ALPHA: OPERATIONAL',
+            '⚠ CITIZEN COMPLIANCE: MANDATORY',
+            '⚠ SURVEILLANCE LEVEL: MAXIMUM',
+            '⚠ RATION DISTRIBUTION: 14:00 DAILY',
+            '⚠ UNAUTHORIZED ASSEMBLY: PROHIBITED',
+            '⚠ PAPERS REQUIRED FOR TRANSIT',
+            '⚠ LOYALTY SCORE: MONITORED',
+            '⚠ SECTOR LOCKDOWN: POSSIBLE',
+            '⚠ RESISTANCE ACTIVITY: DETECTED'
+        ];
+
+        const statusBar = document.getElementById('status-bar');
+        let currentMessageIndex = 0;
+
+        function showStatusMessage() {
+            statusBar.textContent = statusMessages[currentMessageIndex];
+            statusBar.classList.add('show');
+            
+            setTimeout(() => {
+                statusBar.classList.remove('show');
+            }, 4000);
+            
+            currentMessageIndex = (currentMessageIndex + 1) % statusMessages.length;
+        }
+
+        // Show first message after page load
+        setTimeout(showStatusMessage, 2000);
+        
+        // Show new message every 15 seconds
+        setInterval(showStatusMessage, 15000);
+
+        // ============================================
+        // FLICKERING NEON EFFECTS
+        // ============================================
+        const neonElements = document.querySelectorAll('.side h2, h1');
+        
+        setInterval(() => {
+            if (Math.random() > 0.92) {
+                neonElements.forEach(el => {
+                    if (Math.random() > 0.6) {
+                        el.style.opacity = '0.3';
+                        setTimeout(() => {
+                            el.style.opacity = '1';
+                        }, 50);
+                        setTimeout(() => {
+                            el.style.opacity = '0.5';
+                        }, 100);
+                        setTimeout(() => {
+                            el.style.opacity = '1';
+                        }, 150);
+                    }
+                });
+            }
+        }, 3000);
+
+        // ============================================
+        // SCANLINE OVERLAY
+        // ============================================
+        const scanline = document.createElement('div');
+        scanline.className = 'scanline-overlay';
+        document.body.appendChild(scanline);
+
+        // ============================================
+        // DOCUMENT INSPECTION (Papers Please style)
+        // ============================================
+        function showDocument() {
+            const overlay = document.getElementById('document-overlay');
+            overlay.classList.remove('hidden');
+            overlay.classList.add('show');
+            
+            // Reset stamp
+            const stamp = document.getElementById('doc-stamp');
+            stamp.classList.remove('stamped', 'approved', 'rejected');
+            stamp.style.opacity = '0';
+            
+            // Random visitor number
+            const visitorNum = Math.floor(Math.random() * 9000) + 1000;
+            document.querySelector('.glitch-text').textContent = visitorNum;
+        }
+
+        function closeDocument() {
+            const overlay = document.getElementById('document-overlay');
+            overlay.classList.remove('show');
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 300);
+        }
+
+        function chooseWest() {
+            const stamp = document.getElementById('doc-stamp');
+            const dest = document.getElementById('dest-choice');
+            
+            stamp.textContent = 'APPROVED';
+            stamp.classList.add('stamped', 'approved');
+            stamp.style.opacity = '1';
+            dest.textContent = 'WEST SECTOR - FINANCIAL DISTRICT';
+            dest.style.color = '#00f0ff';
+            
+            // Play stamp sound effect (visual feedback)
+            stamp.style.transform = 'rotate(-15deg) scale(1.2)';
+            setTimeout(() => {
+                stamp.style.transform = 'rotate(-15deg) scale(1)';
+            }, 200);
+            
+            setTimeout(closeDocument, 2000);
+        }
+
+        function chooseEast() {
+            const stamp = document.getElementById('doc-stamp');
+            const dest = document.getElementById('dest-choice');
+            
+            stamp.textContent = 'APPROVED';
+            stamp.classList.add('stamped', 'approved');
+            stamp.style.opacity = '1';
+            dest.textContent = 'EAST SECTOR - RESISTANCE ZONE';
+            dest.style.color = '#ff0055';
+            
+            // Play stamp sound effect (visual feedback)
+            stamp.style.transform = 'rotate(15deg) scale(1.2)';
+            setTimeout(() => {
+                stamp.style.transform = 'rotate(15deg) scale(1)';
+            }, 200);
+            
+            setTimeout(closeDocument, 2000);
+        }
+
+        // Add click handler to tagline to show document
+        document.querySelector('.tagline').addEventListener('click', showDocument);
+        document.querySelector('.tagline').style.cursor = 'pointer';
+        document.querySelector('.tagline').title = 'Click to inspect your entry permit';
+
+        // ============================================
+        // ENHANCED CARD INTERACTIONS
+        // ============================================
+        const cards = document.querySelectorAll('.side');
+        
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                // Add slight scan effect
+                this.style.transition = 'all 0.1s ease';
+                
+                // Random flicker on hover
+                if (Math.random() > 0.7) {
+                    this.style.opacity = '0.8';
+                    setTimeout(() => {
+                        this.style.opacity = '1';
+                    }, 50);
+                }
+            });
+        });
+
+        // ============================================
+        // TYPING ANIMATION FOR INTRO
+        // ============================================
+        function typeWriter(element, text, speed = 50) {
+            let i = 0;
+            element.textContent = '';
+            element.style.opacity = '1';
+            
+            function type() {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed + Math.random() * 30);
+                }
+            }
+            
+            type();
+        }
+
+        // Apply typing effect to subtitle on load
+        window.addEventListener('load', () => {
+            const subtitle = document.querySelector('.subtitle');
+            const originalText = subtitle.textContent;
+            subtitle.style.opacity = '0';
+            
+            setTimeout(() => {
+                typeWriter(subtitle, originalText, 80);
+            }, 500);
+        });
+
+        // ============================================
+        // NOISE/STATIC OVERLAY CONTROL
+        // ============================================
+        let noiseIntensity = 0.5;
+        
+        function updateNoise() {
+            const bodyAfter = document.body;
+            // Noise is controlled via CSS variable
+            if (Math.random() > 0.95) {
+                noiseIntensity = 0.3 + Math.random() * 0.4;
+            }
+        }
+        
+        setInterval(updateNoise, 1000);
+
+        // ============================================
+        // CONSOLE EASTER EGG
+        // ============================================
+        console.log('%c⚠ SYSTEM ACCESS DETECTED', 'color: #ff0055; font-size: 20px; font-weight: bold;');
+        console.log('%cWELCOME TO SPORK MAINFRAME', 'color: #00f0ff; font-size: 16px;');
+        console.log('%cYour activities are being monitored.', 'color: #ffff00; font-size: 12px;');
+        console.log('%cGlory to Spork.', 'color: #fff; font-size: 14px; font-style: italic;');
+    </script>
 </body>
 </html>
